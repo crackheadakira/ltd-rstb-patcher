@@ -18,7 +18,7 @@
     },
     "Patch Ryubing": {
       "commandName": "Project",
-      "commandLineArgs": "patch -i ResourceSizeTable.Trial.100.Nin_NX_NVN.rsizetable.zs -t \"%appdata%\\Ryujinx\\sdcard\\atmosphere\\contents\\0100ca502552a000\\romfs\" -o \"%appdata%\\Ryujinx\\sdcard\\atmosphere\\contents\\0100ca502552a000\\romfs\\System\\Resource\""
+      "commandLineArgs": "patch -i ResourceSizeTable.Product.100.Nin_NX_NVN.rsizetable.zs -t \"%appdata%\\Ryujinx\\sdcard\\atmosphere\\contents\\010051f0207b2000\\romfs\" -o \"%appdata%\\Ryujinx\\sdcard\\atmosphere\\contents\\010051f0207b2000\\romfs\\System\\Resource\""
     }
   }
 }

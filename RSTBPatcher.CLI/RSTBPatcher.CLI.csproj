@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AeonSake.NintendoTools" Version="3.3.0" />
-    <PackageReference Include="System.CommandLine" Version="2.0.5" />
+    <PackageReference Include="AeonSake.NintendoTools" Version="3.6.6" />
+    <PackageReference Include="System.CommandLine" Version="2.0.9" />
   </ItemGroup>
 
   <ItemGroup>

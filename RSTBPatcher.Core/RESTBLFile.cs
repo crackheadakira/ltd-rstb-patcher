@@ -38,10 +38,7 @@ public class RESTBLFile
     public record class PathEntry(string Path, uint Size) : BaseEntry(Path.ToCRC32(), Size, Path);
 
     public static readonly ZstdDecompressor Decompressor = new();
-    public static readonly ZstdCompressor Compressor = new()
-    {
-        CompressionLevel = 17
-    };
+    public static readonly ZstdCompressor Compressor = new();
 
     public static byte[] MAGIC { get; } = "RESTBL"u8.ToArray();
     public int Version { get; set; }
@@ -138,7 +135,9 @@ public class RESTBLFile
 
         uncompressedStream.Position = 0;
 
-        Compressor.Compress(uncompressedStream, stream);
+        if (WasCompressed)
+            Compressor.Compress(uncompressedStream, stream);
+        else uncompressedStream.CopyTo(stream);
     }
 
     public void SaveTo(string path)
