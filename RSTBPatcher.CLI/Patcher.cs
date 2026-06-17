@@ -240,7 +240,7 @@ public class Patcher
             filesToUpdate[path] = (uint)fileSize;
 
 #if DEBUG
-            Console.WriteLine($"> {path} size mismatch! ({entry.Size} > {fileSize}) (Diff: {entry.Size - fileSize})");
+            Console.WriteLine($"> {path} size mismatch! ({fileSize} > {entry.Size}) (Diff: {fileSize - entry.Size})");
 #endif
         }
         else

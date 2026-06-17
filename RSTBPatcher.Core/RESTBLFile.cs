@@ -164,6 +164,8 @@ public class RESTBLFile
 
     public static long EstimateSize(long size, Stream stream, string extension, string romfsName)
     {
+        string filenameLower = Path.GetFileName(romfsName).ToLowerInvariant();
+
         return romfsName switch
         {
             "VoiceText/userdict_jpn.csv" => size + 0x138,
@@ -171,37 +173,44 @@ public class RESTBLFile
             "Sound/Resource/Mii_Static.bars" => size + 0x280,
             "Tex/Pack/MiiFaceMaskPos.bntx" => size + 0xE40,
             "Tex/Pack/MiiParts.bntx" => size + 0x960,
-            _ => extension switch
+
+            _ => extension.ToLowerInvariant() switch
             {
-                ".ainb" => size + AinbResourceCalculator.CalculateSizeOffset(stream, romfsName),
-                ".asb" => size + AsbResourceCalculator.CalculateSizeOffset(stream, romfsName),
                 ".bgyml" => size + BgymlResourceCalculator.CalculateSizeOffset(stream, romfsName),
+
+                ".blarc" => size + (filenameLower.Contains("menu_") || filenameLower.Contains("layout/") ? 0x290 + 0x4CE8 : 0x1198),
+                ".byml" => size + (filenameLower.Contains("rstbl") ? 0x120 + 0x6A9E0 : filenameLower.Contains("esetb.byml") ? 0x120 + 0x220 : 0x120),
+                ".bntx" => size + (filenameLower.Contains("miieditoricon") ? 0x1000 + 0xB4E0 : 0x1000),
+                ".bfarc" => size + (filenameLower.Contains("font") ? 0x120 + 0x900 : 0x120),
+
+                ".bfres" => Math.Max(size + 0x12718, size + Math.Min((long)(size * 1.5) + 0x18000, 0x300000)),
+
+                ".asb" => size + (long)Math.Min((size * 0.5) + 0x800, 0xB71B0),
+
+                ".ainb" => size + 0x1F8,
                 ".baatarc" => size + 0x120,
                 ".baev" => size + 0x140,
                 ".bagst" => size + 0x120,
                 ".bars" => size + 0x260,
                 ".belnk" => size + 0x120,
-                ".bfarc" => size + 0x120,
                 ".bfsha" => size + 0x120,
                 ".bhtmp" => size + 0x100,
-                ".blarc" => size + BlarcResourceCalculator.CalculateSizeOffset(stream, romfsName),
                 ".blwp" => size + 0x100,
-                ".bnsh" => size + 0x9C8, // probably complex but there is only one file using this
-                ".bntx" => size + 0x1000,
+                ".bnsh" => size + 0x9C8,
                 ".bphcl" => size + 0x718,
                 ".bphhb" => size + 0x100,
                 ".bphnm" => size + 0x120,
                 ".bphsh" => size + 0x190,
                 ".bslnk" => size + 0x120,
-                ".byml" => size + 0x120,
-                ".genvb" => size + 0xE98, // probably complex
-                ".pack" => size + 0x180,
+                ".genvb" => size + 0xE98 + 0x1000,
+                ".pack" => size + 0x180 + 0x180,
                 ".sarc" => size + 0x2000,
                 ".txt" => size + 0x120,
                 ".bin" => size + 0x120,
                 ".vtdb2" => size + 0x120,
                 ".csv" => size + 0x120,
-                ".bwav" => -1,  // Should not be included in the RESTBL
+
+                ".bwav" => -1,
                 _ => (size + 1500) * 4
             }
         };
